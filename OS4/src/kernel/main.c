@@ -160,7 +160,6 @@ void read_gp(char proc, int slices){
 		state[2] = 2;
 	}
 	P(&queue);
-    P(&NRMutex);
 	P(&readerMutex);
 	if (readers==0)
 		P(&RWMutex); // 有读者，写者不能写
@@ -173,7 +172,6 @@ void read_gp(char proc, int slices){
 	if (readers==0)
 		V(&RWMutex); // 没有读者，开始写
 	V(&readerMutex);
-    V(&NRMutex);
 }
 
 void write_gp(char proc, int slices){
